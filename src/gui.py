@@ -26,7 +26,7 @@ def proceed_with_color():
 # Create the main window
 root = tk.Tk()
 root.title("Color Selection Window")
-root.geometry("1366x768")
+root.geometry("1066x668")
 
 
 # Create a label widget
