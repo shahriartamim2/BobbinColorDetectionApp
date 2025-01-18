@@ -10,7 +10,8 @@ PORT = 'COM3'
 BAUDRATE = 9600
 try:
     ser = serial.Serial(PORT, BAUDRATE)
-    time.sleep(3)  # Allow time for the connection to establish
+    time.sleep(5)  # Allow time for the connection to establish
+    print("Connected to Arduino.")
 except serial.SerialException as e:
     print(f"Error: Could not open port {PORT}. {e}")
     ser = None  # Set ser to None if the port cannot be opened
@@ -22,21 +23,20 @@ def update_gui(second_window, selected_color, selected_color_label, detected_col
     global detectedColor
     
     if ser is None:
-        print("Serial port is not available.")
+        print("Serial port is not available from ser.")
         detected_color_label.config(text="Error: Serial port not available")
         return
 
     if ser.in_waiting > 0:
         data = ser.readline().decode().strip()
         parts = data.split()
-        
-        if len(parts) >= 6:  # Ensure the expected format
-            R = parts[1]
-            G = parts[3]
-            B = parts[5]
-            redPW = int(R)
-            greenPW = int(G)
-            bluePW = int(B)
+        if len(parts) >= 3:  # Ensure the expected format
+            R = int(parts[0].split(':')[1])
+            G = int(parts[1].split(':')[1])
+            B = int(parts[2].split(':')[1])
+            redPW = R
+            greenPW = G
+            bluePW = B
             # Detect color based on PWM thresholds
             if redPW < thres and greenPW < thres and bluePW < thres:
                 detectedColor = "White"
@@ -61,7 +61,7 @@ def update_gui(second_window, selected_color, selected_color_label, detected_col
             else:
                 match_status_label.config(text="Match Status: Bobbin Color does not match", fg="red")
     else:
-        print("Serial port is not available.")    
+        print("Serial port is not available. ok")    
     # Schedule the function to run again after a short delay
     second_window.after(500, lambda: update_gui(second_window, selected_color, selected_color_label, detected_color_label, match_status_label))
 
