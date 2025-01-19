@@ -27,9 +27,15 @@
 
 - Upload the `ColorDetection.ino` code to the Arduino using the Arduino IDE.
 
-### 2. Run the Application
+### 2. Run the Application( if app is there)
 - Download the bobbinCD.exe application 
-- Run the app by double clicking 
+- Run the app by double clicking
+### 2. Alternate open gui
+- go to terminal
+- cmd: cd src
+- terminal command: myenv\Scripts\activate
+- cmd: pip install -r requirements.txt
+- terminal command: python gui.py
 
 ### 3. Test the system
 - Select a color for bobbin
